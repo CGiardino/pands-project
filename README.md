@@ -7,3 +7,19 @@
 - **Week 5 (April 28th - May 4th):** Create scatter plots for variable pairs and save them as images.
 - **Week 6 (May 5th - May 11th):** Perform additional analysis and enhance documentation.
 - **Week 7 (May 12th - May 12th):** Review, finalize, and submit the project repository.
+
+## Iris Dataset Summary
+
+The **Iris dataset**, introduced by **Ronald A. Fisher in 1936**, is commonly used for **classification and statistical analysis**. It contains **150 samples** divided equally among **three species**:
+
+- **Setosa**
+- **Versicolor**
+- **Virginica**
+
+### Features Measured
+- **Sepal length (cm)**
+- **Sepal width (cm)**
+- **Petal length (cm)**
+- **Petal width (cm)**
+
+With **50 samples per species**, the dataset is popular for its simplicity, making it ideal for testing various data analytics and machine learning algorithms.
