@@ -1,5 +1,12 @@
-## Project Plan
+# Iris Dataset Analysis
+Author: Carmine Giardino
 
+## Project Description
+This project focuses on analyzing the **Iris dataset**, a well-known dataset in the field of machine learning and statistics.  
+The analysis includes generating summary statistics, visualizations, and insights into the dataset's features and species.  
+The goal is to provide a comprehensive overview of the dataset, including variable summaries, histograms, and scatter plots for different variable pairs.  
+
+## Project Plan
 - **Week 1 (March 31st - April 6th):** Create the project plan and set up the repository.
 - **Week 2 (April 7th - April 13th):** Research the Iris dataset and write a brief summary of it in the README.md file.
 - **Week 3 (April 14th - April 20th):** Implement variable summary analysis and generate text output.
