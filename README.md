@@ -30,3 +30,41 @@ The **Iris dataset**, introduced by **Ronald A. Fisher in 1936**, is commonly us
 - **Petal width (cm)**
 
 With **50 samples per species**, the dataset is popular for its simplicity, making it ideal for testing various data analytics and machine learning algorithms.
+
+## How to Run the Project
+
+### Prerequisites
+1. Clone the repository to your local machine:
+    ```bash
+    git clone https://github.com/CGiardino/pands-project.git
+    cd pands-project
+    ```
+2. Install Python (version 3.7 or later).
+3. Install the required Python libraries by running:
+   ```bash
+   pip install -r requirements.txt
+    ```
+4. Run the Jupyter Notebook:
+   ```bash
+   jupyter notebook iris_analysis.ipynb
+   ```
+   Alternatively, you can run the Python script directly:
+   ```bash
+   python iris_analysis.py
+   ```
+   Note the python script is a conversion of the Jupyter Notebook.
+
+### Expected Results
+1. **Summary Statistics**: A text file named `iris_summary_statistics.txt` will be generated, containing descriptive statistics for each feature grouped by species.
+2. **Histograms**: Histogram images for each feature (e.g., `sepal_length_histogram.png`).
+3. **Scatter Plots**: Scatter plot images for each pair of features (e.g., `sepal_length_vs_sepal_width_scatter.png`).
+4. **Pairplot**: A comprehensive pairplot image (`pairplot.png`).
+5. **Correlation Matrix**: A heatmap image (`correlation_matrix.png`) showing feature correlations.
+6. **Boxplots**: Boxplot images for each feature grouped by species (e.g., `sepal_length_boxplot.png`).
+
+All results will be saved in the same directory as the script.
+
+### Key Insights
+- The **Setosa** species is generally smaller in size compared to **Versicolor** and **Virginica**.
+- **Versicolor** and **Virginica** have overlapping features, making them harder to distinguish.
+- The **petal length** and **width** are more discriminative features for species classification.
