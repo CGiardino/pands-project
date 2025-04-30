@@ -3,7 +3,7 @@
 # The analysis includes generating summary statistics, visualizations, and insights into the dataset's features and species.  
 # The goal is to provide a comprehensive overview of the dataset, including variable summaries, histograms, and scatter plots for different variable pairs.
 # 
-# ### Author: Carmine Giardino
+# Author: Carmine Giardino
 # 
 # Important Note: this is a copy of the analysis.ipynb, but without the display of the plots.
 
@@ -18,8 +18,7 @@ import itertools
 # Import seaborn for advanced visualizations
 import seaborn as sns
 
-# Load the Iris dataset.
-# Load the Iris dataset from scikit-learn and convert it to a pandas DataFrame.
+# Loading the Iris dataset from scikit-learn and convert it to a pandas DataFrame.
 # References:
 # - [Load Iris dataset](https://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_iris.html)
 # - [Pandas Dataframe](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html)
@@ -36,7 +35,8 @@ target_column_name = 'species'
 # The target names are stored in the 'target' attribute of the dataset with integer labels. So we need to map them to the actual names.
 iris_df[target_column_name] = iris.target_names[iris.target]
 
-# Group by species name and compute summary statistics.
+# Grouping the Iris DataFrame by the values in the column named "species". Therefore, separating groups for each class, e.g., setosa, versicolor, and virginica.  
+# Describing each group with stats (count, mean, std, etc.), and flattening the group labels from the index into a column.
 # References: 
 # - [DataFrame groupby](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.groupby.html)
 # - [DataFrame describe](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.describe.html)
@@ -45,13 +45,13 @@ iris_df[target_column_name] = iris.target_names[iris.target]
 
 iris_summary_by_class = iris_df.groupby(target_column_name).describe().reset_index()
 
-# Flatten the multi-level column headers.
+# Joining multi-level column names tuples like ('sepal_length', 'mean') into a single string: 'sepal_length mean', making the DataFrame easier to work with.
 # Reference: 
 # - [Flatten headers](https://chatgpt.com/share/67f98414-0680-800f-aa4e-0e5b69996c99) - couldn't find an easy way to do this in the documentation.
 
 iris_summary_by_class.columns = [' '.join(col).strip() for col in iris_summary_by_class.columns.values]
 
-# Save the summary DataFrame to a text file.
+# Formatting the DataFrame summary as a string with 2 decimal places, and writing it to a text file. It combines saving output for records and showing results.
 # Reference: 
 # - [DataFrame to string](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.to_string.html)
 # - [Python file write](https://www.w3schools.com/python/python_file_write.asp)
@@ -63,8 +63,7 @@ with open(output_filename, 'w') as file:
     file.write(output_content)
     file.write("\n")
     
-# Create and save histograms for each feature.
-# Create histograms for each feature in the Iris dataset and save them as image files.  
+# Creating histograms for each feature in the Iris dataset and save them as image files.  
 # The histograms provide a visual representation of the distribution of each feature, allowing for easy identification of patterns and clusters.
 # References:
 # - [Matplotlib figure](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.figure.html)
@@ -91,8 +90,7 @@ for feature in feature_names:
     plt.savefig(filename)
     plt.close()
 
-# Create and save scatter plots for each pair of features.
-# Create scatter plots for each pair of features in the Iris dataset and save them as image files.  
+# Creating scatter plots for each pair of features in the Iris dataset and save them as image files.  
 # The scatter plots provide a visual representation of the relationships between features.
 # References:
 # - [Matplotlib scatter](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.scatter.html)
@@ -118,16 +116,14 @@ for feature_x, feature_y in itertools.combinations(feature_names, 2):
     plt.savefig(filename)
     plt.close()
 
-# Create and save a pairplot for feature relationships.
-# Create a pairplot for the features in the Iris dataset and save it as an image file.  
+# Creating a pairplot for the features in the Iris dataset and save it as an image file.  
 # The pairplot provides a comprehensive view of the relationships between features, allowing for easy identification of patterns and clusters.
 
 # Create a pairplot for feature relationships
 sns.pairplot(iris_df, hue='species', diag_kind='kde')
 plt.savefig('pairplot.png')
 
-# Create and save a correlation matrix heatmap.
-# Create a correlation matrix heatmap for the features in the Iris dataset and save it as an image file.  
+# Creating a correlation matrix heatmap for the features in the Iris dataset and save it as an image file.  
 # The correlation matrix provides a visual representation of the relationships between features, making it easier to identify strong correlations.
 # References:
 # - [Seaborn heatmap](https://seaborn.pydata.org/generated/seaborn.heatmap.html)
@@ -139,8 +135,7 @@ sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', fmt='.2f')
 plt.title('Correlation Matrix')
 plt.savefig('correlation_matrix.png')
 
-# Create and save boxplots for each feature by species.
-# Create boxplots for each feature in the Iris dataset, grouped by species, and save them as image files.  
+# Creating boxplots for each feature in the Iris dataset, grouped by species, and save them as image files.  
 # The boxplots provide a visual representation of the distribution of each feature for different species, highlighting the differences and similarities between them.
 
 # Generate boxplots for each feature
@@ -151,6 +146,6 @@ for feature in feature_names:
     plt.savefig(f'{feature.replace(" ", "_")}_boxplot.png')
 
 # Key Insights
-# - The **Setosa** species is generally smaller in size compared to **Versicolor** and **Virginica**.
-# - **Versicolor** and **Virginica** have overlapping features, making them harder to distinguish.
-# - The **petal length** and **width** are more discriminative features for species classification.
+# - The Setosa species is generally smaller in size compared to Versicolor and Virginica.
+# - Versicolor and Virginica have overlapping features, making them harder to distinguish.
+# - The petal length and width are more discriminative features for species classification.
