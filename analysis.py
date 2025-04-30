@@ -1,9 +1,28 @@
-# Author: Carmine Giardino
+# Iris Dataset Summary Statistics
+# This project focuses on analyzing the Iris dataset, a well-known dataset in the field of machine learning and statistics.  
+# The analysis includes generating summary statistics, visualizations, and insights into the dataset's features and species.  
+# The goal is to provide a comprehensive overview of the dataset, including variable summaries, histograms, and scatter plots for different variable pairs.
+# 
+# ### Author: Carmine Giardino
+# 
+# Important Note: this is a copy of the analysis.ipynb, but without the display of the plots.
 
 # Import pandas for data manipulation and analysis.
 import pandas as pd
 # Import load_iris to load the Iris dataset from scikit-learn.
 from sklearn.datasets import load_iris
+# Import matplotlib for plotting.
+import matplotlib.pyplot as plt
+# Import itertools for generating combinations of features.
+import itertools
+# Import seaborn for advanced visualizations
+import seaborn as sns
+
+# Load the Iris dataset.
+# Load the Iris dataset from scikit-learn and convert it to a pandas DataFrame.
+# References:
+# - [Load Iris dataset](https://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_iris.html)
+# - [Pandas Dataframe](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html)
 
 # Load the Iris dataset.
 iris = load_iris()
@@ -19,23 +38,119 @@ iris_df[target_column_name] = iris.target_names[iris.target]
 
 # Group by species name and compute summary statistics.
 # References: 
-# https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.groupby.html
-# https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.describe.html
-# https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.rename_axis.html
-# https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.reset_index.html
+# - [DataFrame groupby](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.groupby.html)
+# - [DataFrame describe](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.describe.html)
+# - [DataFrame rename axis](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.rename_axis.html)
+# - [DataFrame reset index](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.reset_index.html)
+
 iris_summary_by_class = iris_df.groupby(target_column_name).describe().reset_index()
 
 # Flatten the multi-level column headers.
-# Reference: https://chatgpt.com/share/67f98414-0680-800f-aa4e-0e5b69996c99
-# Couldn't find an easy way to do this in the documentation.
+# Reference: 
+# - [Flatten headers](https://chatgpt.com/share/67f98414-0680-800f-aa4e-0e5b69996c99) - couldn't find an easy way to do this in the documentation.
+
 iris_summary_by_class.columns = [' '.join(col).strip() for col in iris_summary_by_class.columns.values]
 
 # Save the summary DataFrame to a text file.
 # Reference: 
-# https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.to_string.html
-# https://www.w3schools.com/python/python_file_write.asp
+# - [DataFrame to string](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.to_string.html)
+# - [Python file write](https://www.w3schools.com/python/python_file_write.asp)
+
+output_content = iris_summary_by_class.to_string(index=False, float_format='{:0.2f}'.format)
 output_filename = 'iris_summary_statistics.txt'
 with open(output_filename, 'w') as file:
     file.write("Variable Summary Analysis\n")
-    file.write(iris_summary_by_class.to_string(index=False, float_format='{:0.2f}'.format))
+    file.write(output_content)
     file.write("\n")
+    
+# Create and save histograms for each feature.
+# Create histograms for each feature in the Iris dataset and save them as image files.  
+# The histograms provide a visual representation of the distribution of each feature, allowing for easy identification of patterns and clusters.
+# References:
+# - [Matplotlib figure](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.figure.html)
+
+# List of feature names
+feature_names = iris.feature_names
+
+# Create and save histograms for each feature
+for feature in feature_names:
+    plt.figure(figsize=(8, 6))
+
+    # Plot histograms for each species without specifying colors
+    for species in iris_df[target_column_name].unique():
+        plt.hist(iris_df[iris_df[target_column_name] == species][feature], bins=20, alpha=0.6, label=species, edgecolor='black')
+
+    plt.title(f'Histogram of {feature}')
+    plt.xlabel(feature)
+    plt.ylabel('Frequency')
+    plt.grid(axis='y', linestyle='--', alpha=0.7)
+    plt.legend(title='Species')
+
+    # Save the histogram as an image file
+    filename = feature.replace(' ', '_').replace('(', '').replace(')', '') + '_histogram.png'
+    plt.savefig(filename)
+    plt.close()
+
+# Create and save scatter plots for each pair of features.
+# Create scatter plots for each pair of features in the Iris dataset and save them as image files.  
+# The scatter plots provide a visual representation of the relationships between features.
+# References:
+# - [Matplotlib scatter](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.scatter.html)
+# - [Itertools combinations](https://docs.python.org/3/library/itertools.html#itertools.combinations)
+
+# Create scatter plots for each pair of features
+for feature_x, feature_y in itertools.combinations(feature_names, 2):
+    plt.figure(figsize=(8, 6))
+
+    # Plot scatter points for each species
+    for species in iris_df['species'].unique():
+        subset = iris_df[iris_df['species'] == species]
+        plt.scatter(subset[feature_x], subset[feature_y], label=species, alpha=0.7)
+
+    plt.title(f'Scatter Plot: {feature_x} vs {feature_y}')
+    plt.xlabel(feature_x)
+    plt.ylabel(feature_y)
+    plt.legend(title='Species')
+    plt.grid(linestyle='--', alpha=0.7)
+
+    # Save the scatter plot as an image file
+    filename = f"{feature_x.replace(' ', '_')}_vs_{feature_y.replace(' ', '_')}_scatter.png"
+    plt.savefig(filename)
+    plt.close()
+
+# Create and save a pairplot for feature relationships.
+# Create a pairplot for the features in the Iris dataset and save it as an image file.  
+# The pairplot provides a comprehensive view of the relationships between features, allowing for easy identification of patterns and clusters.
+
+# Create a pairplot for feature relationships
+sns.pairplot(iris_df, hue='species', diag_kind='kde')
+plt.savefig('pairplot.png')
+
+# Create and save a correlation matrix heatmap.
+# Create a correlation matrix heatmap for the features in the Iris dataset and save it as an image file.  
+# The correlation matrix provides a visual representation of the relationships between features, making it easier to identify strong correlations.
+# References:
+# - [Seaborn heatmap](https://seaborn.pydata.org/generated/seaborn.heatmap.html)
+
+# Compute and visualize the correlation matrix
+correlation_matrix = iris_df.iloc[:, :-1].corr()
+plt.figure(figsize=(8, 6))
+sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', fmt='.2f')
+plt.title('Correlation Matrix')
+plt.savefig('correlation_matrix.png')
+
+# Create and save boxplots for each feature by species.
+# Create boxplots for each feature in the Iris dataset, grouped by species, and save them as image files.  
+# The boxplots provide a visual representation of the distribution of each feature for different species, highlighting the differences and similarities between them.
+
+# Generate boxplots for each feature
+for feature in feature_names:
+    plt.figure(figsize=(8, 6))
+    sns.boxplot(x='species', y=feature, data=iris_df)
+    plt.title(f'Boxplot of {feature} by Species')
+    plt.savefig(f'{feature.replace(" ", "_")}_boxplot.png')
+
+# Key Insights
+# - The **Setosa** species is generally smaller in size compared to **Versicolor** and **Virginica**.
+# - **Versicolor** and **Virginica** have overlapping features, making them harder to distinguish.
+# - The **petal length** and **width** are more discriminative features for species classification.
