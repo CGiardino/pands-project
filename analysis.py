@@ -149,3 +149,10 @@ for feature in feature_names:
 # - The Setosa species is generally smaller in size compared to Versicolor and Virginica.
 # - Versicolor and Virginica have overlapping features, making them harder to distinguish.
 # - The petal length and width are more discriminative features for species classification.
+
+# Future Work
+# As a next step, it would be useful to apply methods for predicting the species of flowers.
+# For reference, **k-NN** and **Decision Trees** have already shown strong performance in preliminary tests:  
+# - [Avuluri Venkatasaireddy’s article on Medium](https://medium.com/@avulurivenkatasaireddy/k-nearest-neighbors-and-implementation-on-iris-data-set-f5817dd33711) demonstrates the use of the k-NN algorithm with Scikit-Learn.  
+# - [Wei-Lung Wang’s article on Medium](https://medium.com/@wl8380/understanding-decision-trees-with-the-iris-dataset-6c12d3b1b09d) shows how Decision Trees can be used to classify flowers using simple rules.
+# Both methods gave similar accuracy, but Decision Trees have an extra advantage—they're easier to understand, quicker to make predictions, and show exactly how the decision was made in a way that's easy to follow.
