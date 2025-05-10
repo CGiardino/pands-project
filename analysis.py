@@ -118,6 +118,8 @@ for feature_x, feature_y in itertools.combinations(feature_names, 2):
 
 # Creating a pairplot for the features in the Iris dataset and save it as an image file.  
 # The pairplot provides a comprehensive view of the relationships between features, allowing for easy identification of patterns and clusters.
+# References:
+# - [Seaborn pairplot](https://seaborn.pydata.org/generated/seaborn.pairplot.html)
 
 # Create a pairplot for feature relationships
 sns.pairplot(iris_df, hue='species', diag_kind='kde')
@@ -137,7 +139,8 @@ plt.savefig('correlation_matrix.png')
 
 # Creating boxplots for each feature in the Iris dataset, grouped by species, and save them as image files.  
 # The boxplots provide a visual representation of the distribution of each feature for different species, highlighting the differences and similarities between them.
-
+# References:
+# - [Seaborn boxplot](https://seaborn.pydata.org/generated/seaborn.boxplot.html)
 # Generate boxplots for each feature
 for feature in feature_names:
     plt.figure(figsize=(8, 6))
